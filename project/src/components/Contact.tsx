@@ -1,32 +1,34 @@
-import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone } from 'lucide-react';
-import { useState } from 'react';
+import { motion } from "framer-motion";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 export function Contact() {
-const [username, setName] = useState('');
-const [email, setEmail] = useState('');
-const [message, setMessage] = useState('');
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch('http://localhost:5000/api/contact',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        username,
-        email,
-        message
-      })
-    });
-    console.log(response);
-    alert('Data saved successfully');
-    
-  } catch (error) {
-    alert('Error saving data'+error);
-  }
-};
+  const [username, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          message,
+        }),
+      });
+      console.log(response);
+      toast.success("Data saved successfully");
+      setEmail("");
+      setMessage("");
+      setName("");
+    } catch (error) {
+      toast.error("Error saving data" + error);
+    }
+  };
   return (
     <section className="bg-gradient-to-t from-black to-blue-950 px-8 py-32 md:px-16 lg:px-32">
       <motion.h2
@@ -67,9 +69,8 @@ const handleSubmit = async (e) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mb-8 text-lg text-gray-300 "
           >
-                  If you have any queries regarding us feel free to contact us at this and  we will try our best to reach you as soon as possible
-
-          
+            If you have any queries regarding us feel free to contact us at this
+            form and we will try our best to reach you as soon as possible
           </motion.p>
         </motion.div>
         <motion.form
@@ -81,14 +82,16 @@ const handleSubmit = async (e) => {
           onSubmit={handleSubmit}
         >
           <div>
-            
-            <label htmlFor="name" className="block text-sm font-medium text-gray-300">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-300"
+            >
               Name
             </label>
             <input
               type="text"
               id="name"
-              name='username'
+              name="username"
               value={username}
               onChange={(e) => setName(e.target.value)}
               className="mt-1 w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
@@ -96,13 +99,16 @@ const handleSubmit = async (e) => {
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-300"
+            >
               Email
             </label>
             <input
               type="email"
               id="email"
-              name='email'
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
@@ -110,13 +116,16 @@ const handleSubmit = async (e) => {
             />
           </div>
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-300">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-300"
+            >
               Message
             </label>
             <textarea
               id="message"
               rows={4}
-              name='message'
+              name="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="mt-1 w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
